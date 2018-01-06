@@ -5,7 +5,7 @@ void checkCompileErrors(const std::string str, GLuint shader);
 Shader::Shader(const char* vertexShader, const char* fragmentShader) {
 	
 	std::ifstream f1(vertexShader, std::ios::in);
-	std::ifstream f2(fragmentShader, std::ios::out);
+	std::ifstream f2(fragmentShader, std::ios::in);
 	
 	if (!f1.good()) {
 		std::cout << "[ERROR] : Vertex Shader File Path" << std::endl;
@@ -16,13 +16,13 @@ Shader::Shader(const char* vertexShader, const char* fragmentShader) {
 		return;
 	}
 
-	f1.seekg(std::ios::end);
+	f1.seekg(0, std::ios::end);
 	int size1 = f1.tellg();
-	f1.seekg(std::ios::beg);
+	f1.seekg(0, std::ios::beg);
 
-	f2.seekg(std::ios::end);
+	f2.seekg(0, std::ios::end);
 	int size2 = f2.tellg();
-	f2.seekg(std::ios::beg);
+	f2.seekg(0, std::ios::beg);
 
 	char* vscode = new char[size1+1];
 	char* fscode = new char[size2+1];

@@ -9,7 +9,8 @@ private:
 	GLuint count;
 
 public:
-	IndexBuffer(GLfloat* _data, GLuint _count);
+	IndexBuffer(GLuint* _data, GLuint _count);
 	void bind() const;
 	void unbind() const;
+	int getCount();
 };

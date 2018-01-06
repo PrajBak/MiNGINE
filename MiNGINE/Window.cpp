@@ -2,12 +2,13 @@
 
 void windowsizecallback(GLFWwindow* window, int width, int height);
 
-Window::Window(int _width, int _height, const char* _name) {
+Window::Window(int _width, int _height, const char* _name)
+	: width(_width), height(_height), name(_name), running(false)
+{
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	width = _width;
-	height = _height;
-	name = _name;
-	running = false;
 	_window = glfwCreateWindow(width, height, name, GLFW_FALSE, GLFW_FALSE);
 }
 
@@ -30,7 +31,7 @@ void Window::update() {
 }
 
 bool Window::isRunning() {
-	if (glfwWindowShouldClose(_window) && glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	if (glfwWindowShouldClose(_window) || glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		running = false;
 	return running;
 }
