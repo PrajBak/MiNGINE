@@ -21,9 +21,9 @@ int main() {
 		std::cout << "[ERROR] : GLEW INITIALISATION!!" << std::endl;
 
 	float vertices[] = {
-		 0.5f, 0.5f, 0.0f,	
-		 0.5f,-0.5f, 0.0f,	
-		-0.5f,-0.5f, 0.0f,	
+		 0.5f, 0.5f, 0.0f,
+		 0.5f,-0.5f, 0.0f,
+		-0.5f,-0.5f, 0.0f,
 		-0.5f, 0.5f, 0.0f
 	};
 
@@ -40,30 +40,27 @@ int main() {
 	};
 
 	VertexArrayBuffer vao;
-	VertexBuffer* vbo = new VertexBuffer(vertices, 3 * 4, 3);
-	VertexBuffer* cbo = new VertexBuffer(color, 3 * 4, 3);
 	IndexBuffer ibo(indices, 6);
 
-	vao.addVertexBuffer(vbo, 0);
-	vao.addVertexBuffer(cbo, 1);
+	vao.addVertexBuffer(new VertexBuffer(vertices, 3 * 4, 3) , 0);
+	vao.addVertexBuffer(new VertexBuffer(color, 3 * 4, 3) , 1);
 	
 	Shader ourShader("./vertexShader.vs", "./fragmentShader.fs");
 	ourShader.useShader();
 
 	while(window->isRunning()) {
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		vao.bind();
 		ibo.bind();
 
-		glDrawElements(GL_POINTS, ibo.getCount(), GL_UNSIGNED_INT, indices);
-		//glDrawArrays(GL_TRIANGLES, 0, 4);
+		glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, 0);
+		vao.unbind();
+		ibo.unbind();
 		window->update();
 	}
 
 	vao.unbind();
-	vbo->unbind();
-	cbo->unbind();
 	ibo.unbind();
 
 	return 0;

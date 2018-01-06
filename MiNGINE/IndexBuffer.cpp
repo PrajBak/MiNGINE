@@ -5,7 +5,7 @@ IndexBuffer::IndexBuffer(GLuint * _data, GLuint _count)
 {
 	glGenBuffers(1, &ibId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibId);
-	glBufferData(ibId, _count * sizeof(GLfloat), _data, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _count * sizeof(GLfloat), _data, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
