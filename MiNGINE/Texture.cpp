@@ -4,6 +4,27 @@ Texture::Texture()
 	: width(0), height(0), data(nullptr) {}
 
 void Texture::loadTexture(const char* imagePath) {
+	data = stbi_load(imagePath, &width, &height, &nrChannels, 0);
+
+	if (!data) {
+		std::cout << "[ERROR] : Not able to load the file" << std::endl;
+		return;
+	}
+
+	glGenTextures(1, &texId);
+	glBindTexture(GL_TEXTURE_2D, texId);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	stbi_image_free(data);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+/*void Texture::loadTextureBMP(const char* imagePath) {
 
 	unsigned int dataPos;
 	unsigned int imageSize;
@@ -37,9 +58,7 @@ void Texture::loadTexture(const char* imagePath) {
 	fread(data, 1, imageSize, tex);
 
 	fclose(tex);
-}
 
-void Texture::bind() {
 	glGenTextures(1, &texId);
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -50,8 +69,14 @@ void Texture::bind() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	delete[] data;
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+}*/
+
+void Texture::bind() {
+	glBindTexture(GL_TEXTURE_2D, texId);
 }
 
-void unbind() {
+void Texture::unbind() {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
