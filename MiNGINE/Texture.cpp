@@ -1,27 +1,54 @@
 #include"Texture.h"
 
-Texture::Texture()
-	: width(0), height(0), data(nullptr) {}
+unsigned int Texture::noOfTex = 0;
 
-void Texture::loadTexture(const char* imagePath) {
+Texture::Texture()
+	: width(0), height(0), data(nullptr){}
+
+void Texture::loadTexture(const char* imagePath, Shader& ourShader) {
+
+	std::string texName("texture");
+
+	stbi_set_flip_vertically_on_load(true);
+
 	data = stbi_load(imagePath, &width, &height, &nrChannels, 0);
 
 	if (!data) {
 		std::cout << "[ERROR] : Not able to load the file" << std::endl;
 		return;
 	}
-
+	currTex = noOfTex + 1;
+	texName += std::to_string(currTex);
 	glGenTextures(1, &texId);
 	glBindTexture(GL_TEXTURE_2D, texId);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	if (getExtension(imagePath) == "jpg")
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+	else if(getExtension(imagePath) == "png")
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
 	stbi_image_free(data);
+	ourShader.useShader();
+	ourShader.setInt(texName, currTex - 1);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	noOfTex++;
+}
+
+std::string Texture::getExtension(const char* arr) {
+	std::string str(arr);
+	std::string ext;
+	if (str.find(".png") != str.npos) {
+		return std::string("png");
+	}
+	else if (str.find(".jpg") != str.npos) {
+		return std::string("jpg");
+	}
 }
 
 /*void Texture::loadTextureBMP(const char* imagePath) {
@@ -74,6 +101,8 @@ void Texture::loadTexture(const char* imagePath) {
 }*/
 
 void Texture::bind() {
+	GLenum val = GL_TEXTURE0 + currTex - 1;
+	glActiveTexture(val);
 	glBindTexture(GL_TEXTURE_2D, texId);
 }
 
