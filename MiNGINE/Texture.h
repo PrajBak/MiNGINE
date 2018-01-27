@@ -21,7 +21,5 @@ public:
 	void loadTexture(const char* imagePath, Shader& ourShader);
 	void bind();
 	void unbind();
-private:
-	std::string getExtension(const char* arr);
 	//void loadTextureBMP(const char* imagePath);
 };

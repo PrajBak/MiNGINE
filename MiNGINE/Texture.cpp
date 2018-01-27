@@ -21,16 +21,16 @@ void Texture::loadTexture(const char* imagePath, Shader& ourShader) {
 	texName += std::to_string(currTex);
 	glGenTextures(1, &texId);
 	glBindTexture(GL_TEXTURE_2D, texId);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	if (getExtension(imagePath) == "jpg")
+	if (nrChannels == 3)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 
-	else if(getExtension(imagePath) == "png")
+	else if (nrChannels == 4)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	stbi_image_free(data);
@@ -40,16 +40,6 @@ void Texture::loadTexture(const char* imagePath, Shader& ourShader) {
 	noOfTex++;
 }
 
-std::string Texture::getExtension(const char* arr) {
-	std::string str(arr);
-	std::string ext;
-	if (str.find(".png") != str.npos) {
-		return std::string("png");
-	}
-	else if (str.find(".jpg") != str.npos) {
-		return std::string("jpg");
-	}
-}
 
 /*void Texture::loadTextureBMP(const char* imagePath) {
 

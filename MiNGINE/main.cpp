@@ -3,6 +3,7 @@
 #include"GLFW\glfw3.h"
 #include"Texture.h"
 #include"Shader.h"
+#include"Transform.h"
 #include"VertexBuffer.h"
 #include"VertexArrayBuffer.h"
 #include"IndexBuffer.h"
@@ -20,6 +21,10 @@ int main() {
 
 	if (glewInit()!= GLEW_OK)
 		std::cout << "[ERROR] : GLEW INITIALISATION!!" << std::endl;
+
+	const char* gCard;
+	gCard = (const char*)glGetString(GL_RENDERER);
+	std::cout << gCard << std::endl;
 
 	float vertices[] = {
 		 0.5f, 0.5f, 0.0f,
@@ -57,6 +62,8 @@ int main() {
 	Shader ourShader("./vertexShader.vs", "./fragmentShader.fs");
 	ourShader.useShader();
 
+	Transform tran;
+
 	Texture texture1;
 	Texture texture2;
 	texture1.loadTexture("./awesomeface.png", ourShader);
@@ -65,6 +72,9 @@ int main() {
 	while(window->isRunning()) {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		tran.getRot().z = -50;
+		glm::mat4 modelMatrix = tran.getTransformMatrix();
+		ourShader.setMat4("transform", modelMatrix);
 		vao.bind();
 		ibo.bind();
 		texture1.bind();
