@@ -2,6 +2,7 @@
 #include"glm\glm.hpp"
 #include"glm\gtx\transform.hpp"
 #include"glm\gtc\type_ptr.hpp"
+#include"Shader.h"
 
 class Transform {
 	glm::vec3 m_pos;
@@ -13,5 +14,7 @@ public:
 	glm::mat4 getTransformMatrix();
 	glm::vec3& getPos();
 	glm::vec3& getRot();
+	void setTransformMatrix(Shader& ourShader);
+private:
 	glm::vec3& getScale();
 };

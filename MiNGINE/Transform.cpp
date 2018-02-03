@@ -27,3 +27,8 @@ glm::mat4 Transform::getTransformMatrix() {
 
 	return glm::mat4(transMatrix * rotateMatrix * scaleMatrix);
 }
+
+void Transform::setTransformMatrix(Shader& ourShader) {
+	glm::mat4 modelMatrix = getTransformMatrix();
+	ourShader.setMat4("transform", modelMatrix);
+}

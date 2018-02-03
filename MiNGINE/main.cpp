@@ -8,7 +8,8 @@
 #include"VertexArrayBuffer.h"
 #include"IndexBuffer.h"
 #include"Window.h"
-
+#include"Mesh.h"
+#include<vector>
 
 int main() {
 
@@ -26,11 +27,59 @@ int main() {
 	gCard = (const char*)glGetString(GL_RENDERER);
 	std::cout << gCard << std::endl;
 
-	float vertices[] = {
+	/*float vertices[] = {
 		 0.5f, 0.5f, 0.0f,
 		 0.5f,-0.5f, 0.0f,
 		-0.5f,-0.5f, 0.0f,
 		-0.5f, 0.5f, 0.0f
+	};
+	*/
+
+	glEnable(GL_DEPTH_TEST);
+
+	float vertices[] = {
+		-0.5f, -0.5f, -0.5f,  
+		 0.5f, -0.5f, -0.5f,  
+		 0.5f,  0.5f, -0.5f,  
+		 0.5f,  0.5f, -0.5f,  
+		-0.5f,  0.5f, -0.5f,  
+		-0.5f, -0.5f, -0.5f,  
+
+		-0.5f, -0.5f,  0.5f,  
+		 0.5f, -0.5f,  0.5f,  
+		 0.5f,  0.5f,  0.5f,  
+		 0.5f,  0.5f,  0.5f,  
+		-0.5f,  0.5f,  0.5f,  
+		-0.5f, -0.5f,  0.5f,  
+
+		-0.5f,  0.5f,  0.5f,  
+		-0.5f,  0.5f, -0.5f,  
+		-0.5f, -0.5f, -0.5f,  
+		-0.5f, -0.5f, -0.5f,  
+		-0.5f, -0.5f,  0.5f,  
+		-0.5f,  0.5f,  0.5f,  
+
+		 0.5f,  0.5f,  0.5f,  
+		 0.5f,  0.5f, -0.5f,  
+		 0.5f, -0.5f, -0.5f,  
+		 0.5f, -0.5f, -0.5f,  
+		 0.5f, -0.5f,  0.5f,  
+		 0.5f,  0.5f,  0.5f,  
+
+		-0.5f, -0.5f, -0.5f,  
+		 0.5f, -0.5f, -0.5f,  
+		 0.5f, -0.5f,  0.5f,  
+		 0.5f, -0.5f,  0.5f,  
+		-0.5f, -0.5f,  0.5f,  
+		-0.5f, -0.5f, -0.5f,  
+
+		-0.5f,  0.5f, -0.5f,  
+		 0.5f,  0.5f, -0.5f,  
+		 0.5f,  0.5f,  0.5f,  
+		 0.5f,  0.5f,  0.5f,  
+		-0.5f,  0.5f,  0.5f,  
+		-0.5f,  0.5f, -0.5f
+
 	};
 
 	float color[] = {
@@ -39,9 +88,53 @@ int main() {
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f
 	};
-
+	/*
 	float textureCord[] = {
 		1.0f, 1.0f,
+		1.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 1.0f
+	};
+	*/
+	float textureCord[] = {
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+
+		0.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
+		1.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 1.0f,
+
+		0.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
 		1.0f, 0.0f,
 		0.0f, 0.0f,
 		0.0f, 1.0f
@@ -49,15 +142,17 @@ int main() {
 
 	unsigned int indices[] = {
 		3, 0, 1,
-		1, 2, 3
+		1, 2, 3,
+
 	};
 
-	VertexArrayBuffer vao;
-	IndexBuffer ibo(indices, 6);
+	///Whenever you want to change vertices you dont have to fiddle with this now XD.It handles the size.
+	std::vector<float> vvertices(vertices, vertices+sizeof(vertices)/sizeof(float));
+	std::vector<float> vcolor(color, color + sizeof(color) / sizeof(float));
+	std::vector<float> vtex(textureCord, textureCord + sizeof(textureCord) / sizeof(float));
 
-	vao.addVertexBuffer(new VertexBuffer(vertices, 3 * 4, 3) , 0);
-	vao.addVertexBuffer(new VertexBuffer(color, 3 * 4, 3) , 1);
-	vao.addVertexBuffer(new VertexBuffer(textureCord, 2 * 4, 2), 2);
+	Mesh mesh(vvertices, vcolor, vtex, indices);
+	mesh.addMesh();
 
 	Shader ourShader("./vertexShader.vs", "./fragmentShader.fs");
 	ourShader.useShader();
@@ -70,23 +165,20 @@ int main() {
 	texture2.loadTexture("./container.jpg", ourShader);
 
 	while(window->isRunning()) {
+		
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-		tran.getRot().z = -50;
-		glm::mat4 modelMatrix = tran.getTransformMatrix();
-		ourShader.setMat4("transform", modelMatrix);
-		vao.bind();
-		ibo.bind();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		texture1.bind();
 		texture2.bind();
-		glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, 0);
-		vao.unbind();
-		ibo.unbind();
+		tran.getPos() = glm::vec3(0.0f, 0.0f, 0.0f);
+		tran.getRot().y += glm::radians(0.05f);
+		tran.getRot().x += glm::radians(0.05f);
+		tran.setTransformMatrix(ourShader);
+		mesh.drawMesh();
 		window->update();
+	
 	}
-
-	vao.unbind();
-	ibo.unbind();
+	mesh.endMesh();
 	texture1.unbind();
 	texture2.unbind();
 
