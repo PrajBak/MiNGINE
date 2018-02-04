@@ -27,58 +27,18 @@ int main() {
 	gCard = (const char*)glGetString(GL_RENDERER);
 	std::cout << gCard << std::endl;
 
-	/*float vertices[] = {
-		 0.5f, 0.5f, 0.0f,
-		 0.5f,-0.5f, 0.0f,
-		-0.5f,-0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f
-	};
-	*/
-
 	glEnable(GL_DEPTH_TEST);
 
 	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  
-		 0.5f, -0.5f, -0.5f,  
-		 0.5f,  0.5f, -0.5f,  
-		 0.5f,  0.5f, -0.5f,  
-		-0.5f,  0.5f, -0.5f,  
-		-0.5f, -0.5f, -0.5f,  
+		-0.5f,  0.5f, -0.5f,
+		 0.5f,  0.5f, -0.5f,
+		 0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
 
-		-0.5f, -0.5f,  0.5f,  
-		 0.5f, -0.5f,  0.5f,  
-		 0.5f,  0.5f,  0.5f,  
-		 0.5f,  0.5f,  0.5f,  
-		-0.5f,  0.5f,  0.5f,  
-		-0.5f, -0.5f,  0.5f,  
-
-		-0.5f,  0.5f,  0.5f,  
-		-0.5f,  0.5f, -0.5f,  
-		-0.5f, -0.5f, -0.5f,  
-		-0.5f, -0.5f, -0.5f,  
-		-0.5f, -0.5f,  0.5f,  
-		-0.5f,  0.5f,  0.5f,  
-
-		 0.5f,  0.5f,  0.5f,  
-		 0.5f,  0.5f, -0.5f,  
-		 0.5f, -0.5f, -0.5f,  
-		 0.5f, -0.5f, -0.5f,  
-		 0.5f, -0.5f,  0.5f,  
-		 0.5f,  0.5f,  0.5f,  
-
-		-0.5f, -0.5f, -0.5f,  
-		 0.5f, -0.5f, -0.5f,  
-		 0.5f, -0.5f,  0.5f,  
-		 0.5f, -0.5f,  0.5f,  
-		-0.5f, -0.5f,  0.5f,  
-		-0.5f, -0.5f, -0.5f,  
-
-		-0.5f,  0.5f, -0.5f,  
-		 0.5f,  0.5f, -0.5f,  
-		 0.5f,  0.5f,  0.5f,  
-		 0.5f,  0.5f,  0.5f,  
-		-0.5f,  0.5f,  0.5f,  
-		-0.5f,  0.5f, -0.5f
+		-0.5f,  0.5f,  0.5f,
+		 0.5f,  0.5f,  0.5f,
+		 0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
 
 	};
 
@@ -88,63 +48,32 @@ int main() {
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f
 	};
-	/*
+
 	float textureCord[] = {
+		0.0f, 1.0f, 
 		1.0f, 1.0f,
 		1.0f, 0.0f,
 		0.0f, 0.0f,
-		0.0f, 1.0f
-	};
-	*/
-	float textureCord[] = {
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
 
 		0.0f, 1.0f,
 		1.0f, 1.0f,
 		1.0f, 0.0f,
-		1.0f, 0.0f,
-		0.0f, 0.0f,
-		0.0f, 1.0f,
-
-		0.0f, 1.0f,
-		1.0f, 1.0f,
-		1.0f, 0.0f,
-		1.0f, 0.0f,
-		0.0f, 0.0f,
-		0.0f, 1.0f
+		0.0f, 0.0f
 	};
 
-	unsigned int indices[] = {
-		3, 0, 1,
-		1, 2, 3,
-
-	};
+	int sq = 0;
+	std::vector<unsigned int> indices;
+	indices.resize(sizeof(vertices) / (sizeof(float) * 3));
+	for (int i = 0; i < sizeof(vertices) / (sizeof(float) * 12); i++) {
+		indices[  i  ] = sq + 0;
+		indices[i + 1] = sq + 1;
+		indices[i + 2] = sq + 2;
+		 
+		indices[i + 3] = sq + 2;
+		indices[i + 4] = sq + 3;
+		indices[i + 5] = sq + 0;
+		sq += 4;
+	}
 
 	///Whenever you want to change vertices you dont have to fiddle with this now XD.It handles the size.
 	std::vector<float> vvertices(vertices, vertices+sizeof(vertices)/sizeof(float));

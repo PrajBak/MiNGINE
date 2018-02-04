@@ -10,14 +10,13 @@ class Mesh {
 	std::vector<float> vertexCords;
 	std::vector<float> colorCords;
 	std::vector<float> texCords;
-
-	unsigned int* indices;
+	std::vector<unsigned int> indices;
 
 	VertexArrayBuffer* vao;
 	IndexBuffer* ibo;
 
 public:
-	Mesh(std::vector<float>& _vertexCords, std::vector<float>& _colorCords, std::vector<float> _texCords, unsigned int* _indices);
+	Mesh(std::vector<float>& _vertexCords, std::vector<float>& _colorCords, std::vector<float> _texCords, std::vector<unsigned int>& _indices);
 	void addMesh();
 	void drawMesh();
 	void endMesh();
