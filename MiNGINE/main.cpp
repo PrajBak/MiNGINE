@@ -30,15 +30,35 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 
 	float vertices[] = {
-		-0.5f,  0.5f, -0.5f,
-		 0.5f,  0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
+		-0.5f, 0.5f,-0.5f,
+		-0.5f,-0.5f,-0.5f,
+		 0.5f,-0.5f,-0.5f,
+		 0.5f, 0.5f,-0.5f,
 
-		-0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
-		 0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
+		-0.5f, 0.5f, 0.5f,
+		-0.5f,-0.5f, 0.5f,
+		 0.5f,-0.5f, 0.5f,
+		 0.5f, 0.5f, 0.5f,
+
+		 0.5f, 0.5f, 0.5f,
+		 0.5f,-0.5f, 0.5f,
+		 0.5f,-0.5f,-0.5f,
+		 0.5f, 0.5f,-0.5f,
+
+		-0.5f, 0.5f,-0.5f,
+		-0.5f,-0.5f,-0.5f,
+		-0.5f,-0.5f, 0.5f,
+		-0.5f, 0.5f, 0.5f,
+
+		-0.5f, 0.5f, 0.5f,
+		-0.5f, 0.5f,-0.5f,
+		 0.5f, 0.5f,-0.5f,
+		 0.5f, 0.5f, 0.5f,
+
+		-0.5f,-0.5f,-0.5f,
+		-0.5f,-0.5f, 0.5f,
+		 0.5f,-0.5f, 0.5f,
+		 0.5f,-0.5f,-0.5f
 
 	};
 
@@ -50,31 +70,71 @@ int main() {
 	};
 
 	float textureCord[] = {
-		0.0f, 1.0f, 
-		1.0f, 1.0f,
-		1.0f, 0.0f,
-		0.0f, 0.0f,
+		0, 1,
+		0, 0,
+		1, 0,
+		1, 1,
 
-		0.0f, 1.0f,
-		1.0f, 1.0f,
-		1.0f, 0.0f,
-		0.0f, 0.0f
+		0, 1,
+		0, 0,
+		1, 0,
+		1, 1,
+
+		0, 1,
+		0, 0,
+		1, 0,
+		1, 1,
+
+		0, 1,
+		0, 0,
+		1, 0,
+		1, 1,
+
+		0, 1,
+		0, 0,
+		1, 0,
+		1, 1,
+
+		0, 1,
+		0, 0,
+		1, 0,
+		1, 1
 	};
 
 	int sq = 0;
 	std::vector<unsigned int> indices;
-	indices.resize(sizeof(vertices) / (sizeof(float) * 3));
+
 	for (int i = 0; i < sizeof(vertices) / (sizeof(float) * 12); i++) {
-		indices[  i  ] = sq + 0;
-		indices[i + 1] = sq + 1;
-		indices[i + 2] = sq + 2;
-		 
-		indices[i + 3] = sq + 2;
-		indices[i + 4] = sq + 3;
-		indices[i + 5] = sq + 0;
+		indices.push_back(sq + 0);
+		indices.push_back(sq + 1);
+		indices.push_back(sq + 2);
+		 	 
+		indices.push_back(sq + 2);
+		indices.push_back(sq + 3);
+		indices.push_back(sq + 0);
 		sq += 4;
 	}
 
+	/*unsigned int indices[] = {
+		0,1,2,
+		2,3,0,
+
+		2,6,7,
+		7,3,2,
+
+		4,5,6,
+		6,7,4,
+
+		5,1,4,
+		4,8,5,
+
+		5,6,2,
+		2,1,5,
+
+		8,7,3,
+		3,4,8
+	};
+	*/
 	///Whenever you want to change vertices you dont have to fiddle with this now XD.It handles the size.
 	std::vector<float> vvertices(vertices, vertices+sizeof(vertices)/sizeof(float));
 	std::vector<float> vcolor(color, color + sizeof(color) / sizeof(float));
@@ -103,7 +163,7 @@ int main() {
 		tran.getRot().y += glm::radians(0.05f);
 		tran.getRot().x += glm::radians(0.05f);
 		tran.setTransformMatrix(ourShader);
-		mesh.drawMesh();
+		mesh.drawMesh(true);
 		window->update();
 	
 	}

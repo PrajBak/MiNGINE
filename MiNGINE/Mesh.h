@@ -18,6 +18,6 @@ class Mesh {
 public:
 	Mesh(std::vector<float>& _vertexCords, std::vector<float>& _colorCords, std::vector<float> _texCords, std::vector<unsigned int>& _indices);
 	void addMesh();
-	void drawMesh();
+	void drawMesh(bool how);
 	void endMesh();
 };

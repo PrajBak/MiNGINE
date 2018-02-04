@@ -18,11 +18,13 @@ void Mesh::addMesh() {
 	vao->addVertexBuffer(new VertexBuffer(tex, texCords.size(), 2), 2);
 }
 
-void Mesh::drawMesh() {
+void Mesh::drawMesh(bool how) {
 	vao->bind();
 	ibo->bind();
-	glDrawElements(GL_TRIANGLES, ibo->getCount(), GL_UNSIGNED_INT, 0);
-	//glDrawArrays(GL_TRIANGLES, 0, 36);
+	if(how)
+		glDrawElements(GL_TRIANGLES, ibo->getCount(), GL_UNSIGNED_INT, 0);
+	else
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 void Mesh::endMesh() {
