@@ -3,6 +3,7 @@
 #include"glm\gtx\transform.hpp"
 #include"glm\gtc\type_ptr.hpp"
 #include"Shader.h"
+#include"Camera.h"
 
 class Transform {
 	glm::vec3 m_pos;
@@ -11,10 +12,10 @@ class Transform {
 
 public:
 	Transform(const glm::vec3 pos = glm::vec3(0, 0, 0), const glm::vec3 rot = glm::vec3(0, 0, 0), const glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f));
-	glm::mat4 getTransformMatrix();
+	glm::mat4& getTransformMatrix();
 	glm::vec3& getPos();
 	glm::vec3& getRot();
-	void setTransformMatrix(Shader& ourShader);
+	void setTransformMatrix(Shader& ourShader, Camera& ourCamera);
 private:
 	glm::vec3& getScale();
 };

@@ -9,6 +9,7 @@
 #include"IndexBuffer.h"
 #include"Window.h"
 #include"Mesh.h"
+#include"Camera.h"
 #include<vector>
 
 int main() {
@@ -105,36 +106,17 @@ int main() {
 	std::vector<unsigned int> indices;
 
 	for (int i = 0; i < sizeof(vertices) / (sizeof(float) * 12); i++) {
-		indices.push_back(sq + 0);
-		indices.push_back(sq + 1);
-		indices.push_back(sq + 2);
+		indices.emplace_back(sq + 0);
+		indices.emplace_back(sq + 1);
+		indices.emplace_back(sq + 2);
 		 	 
-		indices.push_back(sq + 2);
-		indices.push_back(sq + 3);
-		indices.push_back(sq + 0);
+		indices.emplace_back(sq + 2);
+		indices.emplace_back(sq + 3);
+		indices.emplace_back(sq + 0);
 		sq += 4;
 	}
 
-	/*unsigned int indices[] = {
-		0,1,2,
-		2,3,0,
 
-		2,6,7,
-		7,3,2,
-
-		4,5,6,
-		6,7,4,
-
-		5,1,4,
-		4,8,5,
-
-		5,6,2,
-		2,1,5,
-
-		8,7,3,
-		3,4,8
-	};
-	*/
 	///Whenever you want to change vertices you dont have to fiddle with this now XD.It handles the size.
 	std::vector<float> vvertices(vertices, vertices+sizeof(vertices)/sizeof(float));
 	std::vector<float> vcolor(color, color + sizeof(color) / sizeof(float));
@@ -147,6 +129,7 @@ int main() {
 	ourShader.useShader();
 
 	Transform tran;
+	Camera cam(glm::vec3(0.0f, 0.0f, -10.0f), glm::radians(45.0f), 4/3, 1.0f, 100.0f);
 
 	Texture texture1;
 	Texture texture2;
@@ -159,13 +142,13 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		texture1.bind();
 		texture2.bind();
-		tran.getPos() = glm::vec3(0.0f, 0.0f, 0.0f);
-		tran.getRot().y += glm::radians(0.05f);
-		tran.getRot().x += glm::radians(0.05f);
-		tran.setTransformMatrix(ourShader);
+
+		//tran.getPos() = glm::vec3(0.0f, 0.0f, 10.0f);
+		//tran.getRot().y += glm::radians(0.05f);
+		//tran.getRot().x += glm::radians(0.05f);
+		tran.setTransformMatrix(ourShader, cam);
 		mesh.drawMesh(true);
 		window->update();
-	
 	}
 	mesh.endMesh();
 	texture1.unbind();
