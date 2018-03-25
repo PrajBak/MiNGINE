@@ -1,5 +1,5 @@
 #include"Window.h"
-
+//getframebuffersize added and setaspectratio also added, moved setwindowsizecallback from window current to update.
 void windowsizecallback(GLFWwindow* window, int width, int height);
 
 Window::Window(int _width, int _height, const char* _name)
@@ -21,8 +21,8 @@ void Window::windowCurrent() {
 		glfwMakeContextCurrent(_window);
 		running = true;
 	}
-
-	glfwSetWindowSizeCallback(_window, windowsizecallback);
+	glfwSetFramebufferSizeCallback(_window, windowsizecallback);
+	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Window::update() {

@@ -10,6 +10,7 @@
 #include"Window.h"
 #include"Mesh.h"
 #include"Camera.h"
+#include"Input.h"
 #include<vector>
 
 int main() {
@@ -129,7 +130,7 @@ int main() {
 	ourShader.useShader();
 
 	Transform tran;
-	Camera cam(glm::vec3(0.0f, 0.0f, -10.0f), glm::radians(45.0f), 4/3, 1.0f, 100.0f);
+	Camera cam(window, glm::vec3(0.0f, 0.0f, 10.0f), glm::radians(45.0f), 4/3, 0.1f, 100.0f);
 
 	Texture texture1;
 	Texture texture2;
@@ -142,8 +143,8 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		texture1.bind();
 		texture2.bind();
-
-		//tran.getPos() = glm::vec3(0.0f, 0.0f, 10.0f);
+		cam.update();
+		tran.getPos() = glm::vec3(0.0f, 0.0f, 0.0f);
 		//tran.getRot().y += glm::radians(0.05f);
 		//tran.getRot().x += glm::radians(0.05f);
 		tran.setTransformMatrix(ourShader, cam);

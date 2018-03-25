@@ -3,14 +3,14 @@
 #include"GL\glew.h"
 #include"GLFW\glfw3.h"
 
-class Window {
+class Window{
 private:
-	GLFWwindow* _window;
 	int width, height;
 	const char* name;
 	bool running;
 
 public:
+	GLFWwindow* _window;
 	Window(int _width, int _height, const char* _name);
 	void update();
 	bool isRunning();

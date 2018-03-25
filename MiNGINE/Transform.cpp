@@ -16,7 +16,7 @@ glm::vec3& Transform::getScale() {
 	return m_scale;
 }
 
-glm::mat4& Transform::getTransformMatrix() {
+glm::mat4 Transform::getTransformMatrix() {
 	glm::mat4 transMatrix = glm::translate(m_pos);
 	glm::mat4 rotateX = glm::rotate(m_rot.x, glm::vec3(1.0f, 0.0f, 0.0f));
 	glm::mat4 rotateY = glm::rotate(m_rot.y, glm::vec3(0.0f, 1.0f, 0.0f));
