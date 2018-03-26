@@ -17,15 +17,20 @@ private:
 	glm::vec3 right;
 	glm::mat4 perspective;
 	float camSpeed;
+	float aspectRatio;
+	float far;
+	float near;
 	static GLfloat yaw;
 	static GLfloat pitch;
 	static float lastX;
 	static float lastY;
 	static bool firstMouse;
+	static float fov;
 public:
 	Camera(Window* window, glm::vec3& pos, float fov, float aspectRatio, float zNear, float zFar);
 	glm::vec3& getPosition();
 	glm::mat4 getViewPersepective();
 	void update();
 	friend void mousecallback(GLFWwindow* window, double xpos, double ypos);
+	friend void scrollcallback(GLFWwindow* window, double xOffset, double yOffset);
 };

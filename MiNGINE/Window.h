@@ -16,4 +16,5 @@ public:
 	bool isRunning();
 	void windowCurrent();
 	void setRunning(bool _running);
+	float getAspectRatio();
 };

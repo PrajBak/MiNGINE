@@ -4,16 +4,22 @@ GLfloat Camera::yaw = -90.f;
 GLfloat Camera::pitch = 0.0f;
 float Camera::lastX = 250.0f;
 float Camera::lastY = 250.0f;
+float Camera::fov = 45.0f;
 bool Camera::firstMouse = true;
 
-Camera::Camera(Window* window, glm::vec3& _pos, float fov, float aspectRatio, float zNear, float zFar) {
+Camera::Camera(Window* window, glm::vec3& _pos, float _fov, float _aspectRatio, float zNear, float zFar) {
 	Input i(window);
 	in = i;
-	perspective = glm::perspective(fov, aspectRatio, zNear, zFar);
+	Camera::fov = _fov;
+	far = zFar;
+	near = zNear;
+	aspectRatio = _aspectRatio;
+	perspective = glm::perspective(Camera::fov, aspectRatio, near, far);
 	glfwSetCursorPosCallback(window->_window, mousecallback);
+	glfwSetScrollCallback(window->_window, scrollcallback);
 	position = _pos;
-	forward = glm::vec3(0.0f, 5.0f, -1.0f);
-	camSpeed = 0.008f;
+	forward = glm::vec3(0.0f, 0.0f, -1.0f);
+	camSpeed = 0.005f;
 }
 
 glm::vec3& Camera::getPosition() {
@@ -37,6 +43,8 @@ void Camera::update() {
 	if (in.isKeyPressed(GLFW_KEY_A)) {
 		position += right * camSpeed;
 	}
+
+	perspective = glm::perspective(Camera::fov, aspectRatio, near, far);
 
 	glm::vec3 front;
 	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -72,4 +80,14 @@ void mousecallback(GLFWwindow* window, double xpos, double ypos) {
 		Camera::pitch = 89.0f;
 	if (Camera::pitch < -89.0f)
 		Camera::pitch = -89.0f;
+}
+
+void scrollcallback(GLFWwindow* window, double xOffset, double yOffset) {
+
+	if (Camera::fov >= 1.0f && Camera::fov <= 45.0f)
+		Camera::fov -= yOffset*0.1f;
+	if (Camera::fov <= 1.0f)
+		Camera::fov = 1.0f;
+	if (Camera::fov >= 45.0f)
+		Camera::fov = 45.0f;
 }

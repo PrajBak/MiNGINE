@@ -21,11 +21,11 @@ void Window::windowCurrent() {
 		glfwMakeContextCurrent(_window);
 		running = true;
 	}
-	glfwSetFramebufferSizeCallback(_window, windowsizecallback);
 	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Window::update() {
+	glfwSetFramebufferSizeCallback(_window, windowsizecallback);
 	glfwSwapBuffers(_window);
 	glfwPollEvents();
 }
@@ -38,6 +38,10 @@ bool Window::isRunning() {
 
 void Window::setRunning(bool _running) {
 	running = _running;
+}
+
+float Window::getAspectRatio() {
+	return (width / height);
 }
 
 void windowsizecallback(GLFWwindow* window, int width, int height) {
