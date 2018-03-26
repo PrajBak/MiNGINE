@@ -44,7 +44,7 @@ void Camera::update() {
 		position += right * camSpeed;
 	}
 
-	perspective = glm::perspective(Camera::fov, aspectRatio, near, far);
+	perspective = glm::perspective(glm::radians(Camera::fov), aspectRatio, near, far);
 
 	glm::vec3 front;
 	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -85,7 +85,7 @@ void mousecallback(GLFWwindow* window, double xpos, double ypos) {
 void scrollcallback(GLFWwindow* window, double xOffset, double yOffset) {
 
 	if (Camera::fov >= 1.0f && Camera::fov <= 45.0f)
-		Camera::fov -= yOffset*0.1f;
+		Camera::fov -= yOffset*2.0f;
 	if (Camera::fov <= 1.0f)
 		Camera::fov = 1.0f;
 	if (Camera::fov >= 45.0f)

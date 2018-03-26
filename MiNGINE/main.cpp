@@ -130,7 +130,7 @@ int main() {
 	ourShader.useShader();
 
 	Transform tran;
-	Camera cam(window, glm::vec3(0.0f, 0.0f, 10.0f), glm::radians(45.0f), window->getAspectRatio(), 0.1f, 100.0f);
+	Camera cam(window, glm::vec3(0.0f, 0.0f, 3.0f), 45.0f, window->getAspectRatio(), 0.1f, 100.0f);
 
 	Texture texture1;
 	Texture texture2;
